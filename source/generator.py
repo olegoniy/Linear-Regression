@@ -33,14 +33,15 @@ if __name__ == "__main__":
     x_max = float(input("\nWhat is the greatest x-value?\n>"))
     a = float(input("\nThe slope of linear dependence:\n>"))
     b = float(input("\nValue of shift-term:\n>"))
-    filename = input("\nWhere you'd want to save generated data?\n>")
-
-    gen = DataGenerator(n, x_max, a, b, filename)
+    filename = input("\nWhere you'd want to save generated data? (enter nothing for standart name)\n>")
+    if filename  == "":
+        gen = DataGenerator(n, x_max, a, b)
+    else:
+        gen = DataGenerator(n, x_max, a, b, filename)
     res = gen.generate()
     gen.plot()
     if gen.safe(res):
         print(f"Data was successfuly saved in {filename}!\n")
     else:
         print(f"Something went wrong during saving :(")    
-
 
