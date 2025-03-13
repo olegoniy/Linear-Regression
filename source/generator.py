@@ -1,5 +1,24 @@
+'''Genartor 
+
+Usage:
+    generator.py [-n=<Number>] [-m=<X_max>] [-a=<Slope>] [-b=<Intersection>] [-f=<Filename>]
+    generator.py (-h|--help)
+
+Options:
+    -h --help           Show this menu
+    -n=<Number>         Number of points to generate
+    -m=<X_max>          Biggest x-value
+    -a=<Slope>          Slope coefficient
+    -b=<Intersection>   Intersection with Oy in f(0)
+    -f=<Filename>       File to save generated data in
+'''
+
 import numpy as np
 import matplotlib.pyplot as plt
+from docopt import docopt
+from validator import Validator as vld
+import pathvalidate as pv
+
 
 class DataGenerator():
     def __init__(self, n:int, xMax:float, a:float, b:float, filename:str = "file.txt"):
@@ -25,19 +44,57 @@ class DataGenerator():
         plt.show()
 
 
-if __name__ == "__main__":
-    print(np.array([[],[]])[1].shape)
 
-    print(np.linspace(0, 10, 20).shape)
-    n = int(input("\nHow many points would you like to generate?\n>"))
-    x_max = float(input("\nWhat is the greatest x-value?\n>"))
-    a = float(input("\nThe slope of linear dependence:\n>"))
-    b = float(input("\nValue of shift-term:\n>"))
-    filename = input("\nWhere you'd want to save generated data? (enter nothing for standart name)\n>")
-    if filename  == "":
-        gen = DataGenerator(n, x_max, a, b)
+if __name__ == "__main__":
+    args = docopt(__doc__, version = "Generator 0.0.69")
+    val = vld()
+    # Validating of entries
+    # Number of points
+    if args["-n"]:
+        n = args["-n"]
     else:
-        gen = DataGenerator(n, x_max, a, b, filename)
+        n = input("What's a number of points are to generate:\n>")
+    while not val.is_pos_int(n):
+        n = input("Your entry must be a positive integer. Try again:\n>")
+    n = int(n)
+
+    # Maximal x-value
+    if args["-m"]:
+        m = args["-m"]
+    else:
+        m = input("The greatest x-value of generated data:\n>")
+    while not val.is_pos_float(m):
+        m = input("Your entry must be a positive number. Try again:\n>")
+    m = float(m)
+
+    # Slope coefficient
+    if args["-a"]:
+        a = args["-a"]
+    else:
+        a = input("Slope coefficient for dependency in generated data:\n>")
+    while not val.is_float(a):
+        a = input("Your entry must be a float. Try again:\n>")
+    a = float(a)
+
+    # Shift
+    if args["-b"]:
+        b = args["-b"]
+    else:
+        b = input("Shift term for generated data:\n>")
+    while not val.is_float(b):
+        b = input("Your entry must be a float. Try again:\n>")
+    b = float(b)
+
+    # File for saving
+    if args["-f"]:
+        filename = args["-f"]
+    else:
+        filename = input("Where would you like to save your data? (Leave field empty to save it to standart file)\n>")
+    while not (pv.is_valid_filepath(filename) or filename == ""):
+        filename = input("The name you provided is not valid. Try again: \n>")
+    if filename=="":
+        filename = "file.txt"
+    gen = DataGenerator(n, m, a, b, filename)
     res = gen.generate()
     gen.plot()
     if gen.safe(res):
