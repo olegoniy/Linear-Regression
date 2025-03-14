@@ -1,4 +1,4 @@
-
+# basically a separate class to validate users input (cause it is messy otherwise)
 class Validator():
     
     def __init__(self):
