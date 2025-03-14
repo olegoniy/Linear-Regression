@@ -24,7 +24,7 @@ import numpy as np
 
 
 class DataGenerator():
-    def __init__(self, n:int, xMax:float, a:float, b:float, filename:str = "file.txt"):
+    def __init__(self, n:int, xMax:float, a:float, b:float, filename:str = "file.csv"):
         self.data = Data(n)
         self.data.setXmax(xMax)
         self.data.setSlope(a)
@@ -96,10 +96,10 @@ if __name__ == "__main__":
                 filename = args["-f"]
             else:
                 filename = input("Where would you like to save your data? (Leave field empty to save it to standart file)\n>")
-            while not (pv.is_valid_filepath(filename) or filename == ""):
+            while not (pv.is_valid_filename(filename) or filename == ""):
                 filename = input("The name you provided is not valid. Try again: \n>")
             if filename=="":
-                filename = "file.txt"
+                filename = "file.csv"
 
             # Generation itself
             gen = DataGenerator(n, m, a, b, filename)
@@ -110,5 +110,6 @@ if __name__ == "__main__":
             else:
                 print(f"Something went wrong during saving :(")
             flag = False
+            input("Press enter to end the program...")
         except KeyboardInterrupt:
             print("New start\n\n")

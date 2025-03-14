@@ -12,6 +12,10 @@ class Data():
     def len(self):
         return self._length
 
+    def setLen(self, n):
+        self._values = np.ndarray(shape=(2, n))
+        self._length = n
+
     def setValues(self, row:int, values:np.ndarray):
         self._values[row] = values
         return 0
