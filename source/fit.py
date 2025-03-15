@@ -16,7 +16,6 @@ from docopt import docopt
 import pathvalidate as pv
 import numpy as np
 
-
 class Fitter():              # Well I am not sure it is proper name for it, but who cares
 
     def __init__(self):
@@ -62,12 +61,13 @@ if __name__ == "__main__":
         filename = input("The file to import data (must be .csv):\n>")
     while not pv.is_valid_filename(filename):
         filename = input("The name, you provided is not to be used! Try again:\n>")
+    
     fitter = Fitter()
     fitter.import_data(filename)
     fitter.analyse()
+
     fitter.plot()
     print(f"a = {fitter.data.getSlope()}")
     print(f"b = {fitter.data.getIntersection()}")
-
 
     input("Press enter to end the program...")
