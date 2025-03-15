@@ -34,7 +34,7 @@ class Fitter():              # Well I am not sure it is proper name for it, but 
         ans = 0
         ans += self.data.len()*(self.data.getValues(0)*self.data.getValues(1)).sum()
         ans -= self.data.getValues(0).sum()*self.data.getValues(1).sum()
-        ans /= (self.data.getValues(0)**2).sum() - (self.data.getValues(0)).sum()**2
+        ans /= self.data.len()*(self.data.getValues(0)**2).sum() - (self.data.getValues(0)).sum()**2
         self.data.setSlope(ans)
 
     def _calculate_intersection(self):
@@ -51,7 +51,7 @@ class Fitter():              # Well I am not sure it is proper name for it, but 
         plt.plot(self.data.getValues(0), self.data.getValues(1), "bo")
         tmpX = np.array([0, self.data.getXmax()])
         tmpY = tmpX*self.data.getSlope() + self.data.getIntersection()
-        plt.plot(tmpX, tmpY)
+        plt.plot(tmpX, tmpY, "r")
         plt.show()
 
 if __name__ == "__main__":
@@ -66,8 +66,8 @@ if __name__ == "__main__":
     fitter.import_data(filename)
     fitter.analyse()
     fitter.plot()
-    print(f"a = {fitter.data.getSlope}")
-    print(f"b = {fitter.data.getIntersection}")
+    print(f"a = {fitter.data.getSlope()}")
+    print(f"b = {fitter.data.getIntersection()}")
 
 
     input("Press enter to end the program...")

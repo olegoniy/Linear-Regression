@@ -104,12 +104,12 @@ if __name__ == "__main__":
             # Generation itself
             gen = DataGenerator(n, m, a, b, filename)
             res = gen.generate()
-            gen.plot()
             if gen.safe(res):
                 print(f"Data was successfuly saved in {filename}!\n")
             else:
                 print(f"Something went wrong during saving :(")
             flag = False
+            gen.plot()
             input("Press enter to end the program...")
         except KeyboardInterrupt:
             print("New start\n\n")
